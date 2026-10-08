@@ -12,64 +12,109 @@
     </script>
 
     <style>
-        body {
-            margin: 0;
-            background: #f5f5f5;
-            font-family: Arial, sans-serif;
+
+        /* Remove default spacing */
+        * {
+            box-sizing: border-box;
         }
 
-        /* ===== BUTTON AREA ===== */
-        .buttons {
-            display: flex;
-            gap: 10px;
-            padding: 15px;
-            background: white;
-            justify-content: center;
-            flex-wrap: wrap;
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+
+            /* Make the page exactly the height of the screen */
+            height: 100vh;
+
+            /* Prevent the page itself from scrolling */
+            overflow: hidden;
         }
+
+
+        /* =================================
+           TOP BUTTON BAR
+           ================================= */
+
+        .buttons {
+            height: 70px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 10px;
+
+            padding: 10px;
+
+            background: white;
+
+            /* Make sure buttons are above everything */
+            position: relative;
+            z-index: 10;
+
+            overflow-x: auto;
+        }
+
+
+        /* Individual buttons */
 
         .model-button {
             padding: 10px 20px;
+
             border: none;
             border-radius: 6px;
+
             background: #ddd;
+
             cursor: pointer;
+
             font-size: 16px;
+
+            white-space: nowrap;
         }
+
 
         .model-button:hover {
             background: #bbb;
         }
+
+
+        /* Currently selected model */
 
         .model-button.active {
             background: #333;
             color: white;
         }
 
-        /* ===== 3D VIEWER ===== */
+
+        /* =================================
+           3D VIEWER
+           ================================= */
+
         model-viewer {
+
+            /* Take up remaining screen */
             width: 100%;
+
             height: calc(100vh - 70px);
+
+            display: block;
+
             background: #eaeaea;
         }
+
     </style>
 </head>
 
+
 <body>
 
-    <!-- =========================
-         MODEL BUTTONS
-         ========================= -->
+
+    <!-- =================================
+         BUTTONS
+         ================================= -->
 
     <div class="buttons">
-
-        <!--
-            TEMPLATE:
-
-            Copy this button and change:
-            1. The text between > <
-            2. The filename inside changeModel()
-        -->
 
         <button
             class="model-button active"
@@ -85,53 +130,67 @@
         </button>
 
 
-        <!-- COPY THIS FOR MORE MODELS -->
-
         <!--
+        =====================================
+        COPY THIS BLOCK TO ADD MORE MODELS
+        =====================================
+
         <button
             class="model-button"
             onclick="changeModel('your-model.glb', this)">
-            Your Model Name
+            Your Model
         </button>
+
         -->
 
     </div>
 
 
-    <!-- =========================
-         3D MODEL VIEWER
-         ========================= -->
+    <!-- =================================
+         3D MODEL
+         ================================= -->
 
     <model-viewer
         id="viewer"
         src="laser-cutting.glb"
+
         camera-controls
         auto-rotate
+
         shadow-intensity="1"
         exposure="1">
     </model-viewer>
 
 
-    <!-- =========================
+    <!-- =================================
          JAVASCRIPT
-         ========================= -->
+         ================================= -->
 
     <script>
 
         function changeModel(filename, button) {
 
-            // Change the 3D model
-            document.getElementById("viewer").src = filename;
+            // Change model
+            const viewer = document.getElementById("viewer");
 
-            // Remove active state from all buttons
-            document.querySelectorAll(".model-button")
-                .forEach(btn => btn.classList.remove("active"));
+            viewer.src = filename;
 
-            // Make the clicked button active
+
+            // Remove active state
+            document
+                .querySelectorAll(".model-button")
+                .forEach(btn => {
+                    btn.classList.remove("active");
+                });
+
+
+            // Highlight clicked button
             button.classList.add("active");
+
         }
 
     </script>
+
 
 </body>
 </html>
