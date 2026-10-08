@@ -1,10 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>My 3D Models</title>
+    <title>3D Model Viewer</title>
 
     <script type="module"
         src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
@@ -17,16 +18,92 @@
             font-family: Arial, sans-serif;
         }
 
+        /* ===== BUTTON AREA ===== */
+        .buttons {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            background: white;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .model-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            background: #ddd;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .model-button:hover {
+            background: #bbb;
+        }
+
+        .model-button.active {
+            background: #333;
+            color: white;
+        }
+
+        /* ===== 3D VIEWER ===== */
         model-viewer {
             width: 100%;
-            height: 100vh;
+            height: calc(100vh - 70px);
+            background: #eaeaea;
         }
     </style>
 </head>
 
 <body>
 
+    <!-- =========================
+         MODEL BUTTONS
+         ========================= -->
+
+    <div class="buttons">
+
+        <!--
+            TEMPLATE:
+
+            Copy this button and change:
+            1. The text between > <
+            2. The filename inside changeModel()
+        -->
+
+        <button
+            class="model-button active"
+            onclick="changeModel('laser-cutting.glb', this)">
+            Laser Cutting
+        </button>
+
+
+        <button
+            class="model-button"
+            onclick="changeModel('another-model.glb', this)">
+            Another Model
+        </button>
+
+
+        <!-- COPY THIS FOR MORE MODELS -->
+
+        <!--
+        <button
+            class="model-button"
+            onclick="changeModel('your-model.glb', this)">
+            Your Model Name
+        </button>
+        -->
+
+    </div>
+
+
+    <!-- =========================
+         3D MODEL VIEWER
+         ========================= -->
+
     <model-viewer
+        id="viewer"
         src="laser-cutting.glb"
         camera-controls
         auto-rotate
@@ -34,13 +111,28 @@
         exposure="1">
     </model-viewer>
 
-    <model-viewer
-        src="laser-cutting.glb"
-        camera-controls
-        auto-rotate
-        shadow-intensity="1"
-        exposure="1">
-    </model-viewer>
+
+    <!-- =========================
+         JAVASCRIPT
+         ========================= -->
+
+    <script>
+
+        function changeModel(filename, button) {
+
+            // Change the 3D model
+            document.getElementById("viewer").src = filename;
+
+            // Remove active state from all buttons
+            document.querySelectorAll(".model-button")
+                .forEach(btn => btn.classList.remove("active"));
+
+            // Make the clicked button active
+            button.classList.add("active");
+        }
+
+    </script>
 
 </body>
 </html>
+```
